@@ -3,6 +3,7 @@ name: Deploy Fused Productions
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
 concurrency:
   group: fused-productions-deploy
