@@ -1,0 +1,15 @@
+services:
+  web:
+    build: .
+    container_name: fusedproductions-web
+    restart: unless-stopped
+    ports:
+      - "3010:3000"
+    environment:
+      - NODE_ENV=production
+    networks:
+      - gateway
+
+networks:
+  gateway:
+    external: true
