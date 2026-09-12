@@ -11,11 +11,17 @@ export const SITE = {
 
 export const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': ['LocalBusiness', 'EventPlanner'],
+  '@type': 'ProfessionalService',
   name: SITE.name,
   url: SITE.url,
   email: SITE.email,
   telephone: SITE.phoneTel,
+  serviceType: [
+    'Event planning',
+    'DJ services',
+    'Laser light shows',
+    'Catering',
+  ],
   areaServed: [
     { '@type': 'AdministrativeArea', name: 'Northeast Ohio' },
     { '@type': 'City', name: 'Cleveland' },

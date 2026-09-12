@@ -1,6 +1,3 @@
-'use client';
-
-import { FormEvent, useState } from 'react';
 import {
   Music,
   Sparkles,
@@ -15,28 +12,20 @@ import {
   Users,
   Calendar,
   Check,
-  Menu,
-  X,
   Quote,
   Heart,
   Building2,
   PartyPopper,
   Cake,
-  ChevronDown,
   Shield,
   Clock,
   Receipt,
 } from 'lucide-react';
+import FaqList from '@/components/FaqList';
+import QuoteForm from '@/components/QuoteForm';
+import SiteNav from '@/components/SiteNav';
+import { navLinks } from '@/lib/nav';
 import { SITE } from '@/lib/site';
-
-const navLinks = [
-  { href: '#services', label: 'Services' },
-  { href: '#process', label: 'How it works' },
-  { href: '#events', label: 'Events' },
-  { href: '#packages', label: 'Packages' },
-  { href: '#testimonials', label: 'Reviews' },
-  { href: '#faq', label: 'FAQ' },
-];
 
 const services = [
   {
@@ -236,7 +225,7 @@ const eventTypes = [
     icon: Cake,
     title: 'Birthdays & milestones',
     description:
-      'Sweet sixteens, 21sts, 50ths, retirements, and quinceañeras with a party that actually feels produced.',
+      'Sweet sixteens, 21sts, 50ths, retirements, and quinceaÃ±eras with a party that actually feels produced.',
     features: [
       'Milestone and surprise parties',
       'Age-appropriate playlists and MC',
@@ -316,306 +305,10 @@ const faqs = [
   },
 ];
 
-const serviceOptions = [
-  { id: 'dj', label: 'DJ / entertainment' },
-  { id: 'lights', label: 'Laser & lighting' },
-  { id: 'catering', label: 'Catering' },
-  { id: 'planning', label: 'Event planning' },
-] as const;
-
-function QuoteForm() {
-  const [status, setStatus] = useState<'idle' | 'sent' | 'error'>('idle');
-  const [servicesNeeded, setServicesNeeded] = useState<string[]>([]);
-
-  function toggleService(id: string) {
-    setServicesNeeded((current) =>
-      current.includes(id) ? current.filter((item) => item !== id) : [...current, id]
-    );
-  }
-
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const data = new FormData(form);
-    const firstName = String(data.get('firstName') ?? '').trim();
-    const lastName = String(data.get('lastName') ?? '').trim();
-    const email = String(data.get('email') ?? '').trim();
-    const phone = String(data.get('phone') ?? '').trim();
-    const eventType = String(data.get('eventType') ?? '').trim();
-    const eventDate = String(data.get('eventDate') ?? '').trim();
-    const guestCount = String(data.get('guestCount') ?? '').trim();
-    const details = String(data.get('details') ?? '').trim();
-
-    if (!firstName || !email) {
-      setStatus('error');
-      return;
-    }
-
-    const lines = [
-      `Name: ${firstName} ${lastName}`.trim(),
-      `Email: ${email}`,
-      `Phone: ${phone || 'Not provided'}`,
-      `Event type: ${eventType || 'Not specified'}`,
-      `Event date: ${eventDate || 'Not specified'}`,
-      `Guest count: ${guestCount || 'Not specified'}`,
-      `Services: ${servicesNeeded.length ? servicesNeeded.join(', ') : 'Not specified'}`,
-      '',
-      details || '(No additional details)',
-    ];
-
-    const subject = encodeURIComponent(
-      `Event quote — ${firstName} ${lastName}`.trim() + (eventType ? ` (${eventType})` : '')
-    );
-    const body = encodeURIComponent(lines.join('\n'));
-    window.location.href = `mailto:${SITE.email}?subject=${subject}&body=${body}`;
-    setStatus('sent');
-  }
-
-  return (
-    <form className="space-y-6" onSubmit={handleSubmit}>
-      <div className="grid sm:grid-cols-2 gap-6">
-        <div>
-          <label htmlFor="firstName" className="block text-sm font-medium text-gray-300 mb-2">
-            First name
-          </label>
-          <input
-            id="firstName"
-            name="firstName"
-            type="text"
-            required
-            autoComplete="given-name"
-            className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-xl focus:outline-none focus:border-primary-500 transition-colors"
-            placeholder="Jordan"
-          />
-        </div>
-        <div>
-          <label htmlFor="lastName" className="block text-sm font-medium text-gray-300 mb-2">
-            Last name
-          </label>
-          <input
-            id="lastName"
-            name="lastName"
-            type="text"
-            autoComplete="family-name"
-            className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-xl focus:outline-none focus:border-primary-500 transition-colors"
-            placeholder="Lee"
-          />
-        </div>
-      </div>
-
-      <div className="grid sm:grid-cols-2 gap-6">
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-            Email
-          </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            required
-            autoComplete="email"
-            className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-xl focus:outline-none focus:border-primary-500 transition-colors"
-            placeholder="you@example.com"
-          />
-        </div>
-        <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-2">
-            Phone
-          </label>
-          <input
-            id="phone"
-            name="phone"
-            type="tel"
-            autoComplete="tel"
-            className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-xl focus:outline-none focus:border-primary-500 transition-colors"
-            placeholder="(833) 837-6339"
-          />
-        </div>
-      </div>
-
-      <div className="grid sm:grid-cols-2 gap-6">
-        <div>
-          <label htmlFor="eventType" className="block text-sm font-medium text-gray-300 mb-2">
-            Event type
-          </label>
-          <select
-            id="eventType"
-            name="eventType"
-            className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-xl focus:outline-none focus:border-primary-500 transition-colors"
-            defaultValue=""
-          >
-            <option value="">Select event type</option>
-            <option value="wedding">Wedding</option>
-            <option value="corporate">Corporate event</option>
-            <option value="birthday">Birthday / milestone</option>
-            <option value="private">Private party</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-        <div>
-          <label htmlFor="eventDate" className="block text-sm font-medium text-gray-300 mb-2">
-            Event date
-          </label>
-          <input
-            id="eventDate"
-            name="eventDate"
-            type="date"
-            className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-xl focus:outline-none focus:border-primary-500 transition-colors"
-          />
-        </div>
-      </div>
-
-      <div>
-        <label htmlFor="guestCount" className="block text-sm font-medium text-gray-300 mb-2">
-          Guest count
-        </label>
-        <input
-          id="guestCount"
-          name="guestCount"
-          type="number"
-          min={1}
-          className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-xl focus:outline-none focus:border-primary-500 transition-colors"
-          placeholder="120"
-        />
-      </div>
-
-      <fieldset>
-        <legend className="block text-sm font-medium text-gray-300 mb-3">Services needed</legend>
-        <div className="grid sm:grid-cols-2 gap-3">
-          {serviceOptions.map((option) => (
-            <label
-              key={option.id}
-              className="flex items-center gap-3 px-4 py-3 rounded-xl bg-gray-800 border border-white/10 cursor-pointer hover:border-primary-500/50"
-            >
-              <input
-                type="checkbox"
-                checked={servicesNeeded.includes(option.id)}
-                onChange={() => toggleService(option.id)}
-                className="rounded border-white/20 bg-gray-900 text-primary-500 focus:ring-primary-500"
-              />
-              <span>{option.label}</span>
-            </label>
-          ))}
-        </div>
-      </fieldset>
-
-      <div>
-        <label htmlFor="details" className="block text-sm font-medium text-gray-300 mb-2">
-          Tell us about your event
-        </label>
-        <textarea
-          id="details"
-          name="details"
-          rows={4}
-          className="w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-xl focus:outline-none focus:border-primary-500 transition-colors resize-none"
-          placeholder="Venue, vibe, must-play songs, dietary needs…"
-        />
-      </div>
-
-      <button
-        type="submit"
-        className="w-full py-4 bg-gradient-to-r from-primary-500 to-accent-500 rounded-xl font-semibold text-lg hover:opacity-90 transition-opacity"
-      >
-        Request quote
-      </button>
-
-      {status === 'sent' && (
-        <p className="text-sm text-primary-300 text-center">
-          Your email app should open with the quote request. If it does not, write us at {SITE.email}.
-        </p>
-      )}
-      {status === 'error' && (
-        <p className="text-sm text-red-400 text-center">Please add your first name and email so we can reply.</p>
-      )}
-    </form>
-  );
-}
-
 export default function Home() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
-
   return (
     <div className="min-h-screen">
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-950/80 backdrop-blur-xl border-b border-white/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <a href="#top" className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center">
-                <Sparkles className="w-5 h-5 text-white" />
-              </div>
-              <span className="font-display font-bold text-xl">
-                Fused<span className="text-primary-400">Productions</span>
-              </span>
-            </a>
-
-            <div className="hidden lg:flex items-center gap-6">
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
-                  {link.label}
-                </a>
-              ))}
-              <a
-                href={`tel:${SITE.phoneTel}`}
-                className="text-gray-300 hover:text-white transition-colors flex items-center gap-2"
-              >
-                <Phone className="w-4 h-4" />
-                {SITE.phoneDisplay}
-              </a>
-              <a
-                href="#contact"
-                className="px-4 py-2 bg-gradient-to-r from-primary-500 to-accent-500 rounded-lg font-medium hover:opacity-90 transition-opacity"
-              >
-                Get quote
-              </a>
-            </div>
-
-            <button
-              className="lg:hidden p-2"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-            >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
-        </div>
-
-        {mobileMenuOpen && (
-          <div className="lg:hidden bg-gray-900 border-t border-white/5">
-            <div className="px-4 py-4 space-y-3">
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className="block text-gray-300 hover:text-white"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {link.label}
-                </a>
-              ))}
-              <a
-                href={`tel:${SITE.phoneTel}`}
-                className="block text-gray-300 hover:text-white"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Call {SITE.phoneDisplay}
-              </a>
-              <a
-                href="#contact"
-                className="block px-4 py-2 bg-gradient-to-r from-primary-500 to-accent-500 rounded-lg font-medium text-center"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Get quote
-              </a>
-            </div>
-          </div>
-        )}
-      </nav>
-
+      <SiteNav />
       <section id="top" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary-900/20 via-gray-950 to-gray-950" />
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl" />
@@ -636,7 +329,7 @@ export default function Home() {
             One team for the whole night.
           </h1>
 
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-10 text-balance">
+          <p className="text-xl text-gray-200 max-w-2xl mx-auto mb-10 text-balance">
             Fused Productions is the turnkey crew for weddings, corporate events, birthdays, and
             private parties — DJ, laser shows, catering, and full event planning under one invoice.
           </p>
@@ -668,7 +361,7 @@ export default function Home() {
             {stats.map((stat) => (
               <div key={stat.label}>
                 <div className="text-2xl sm:text-3xl font-display font-bold gradient-text">{stat.value}</div>
-                <div className="text-gray-500 mt-1 text-sm sm:text-base">{stat.label}</div>
+                <div className="text-gray-200 mt-1 text-sm sm:text-base">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -682,7 +375,7 @@ export default function Home() {
               Everything you need,{' '}
               <span className="gradient-text">all in one place</span>
             </h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-200 max-w-2xl mx-auto">
               Stop juggling a DJ, a caterer, and a planner. We produce the night as one show.
             </p>
           </div>
@@ -698,7 +391,7 @@ export default function Home() {
                 </div>
 
                 <h3 className="font-display text-2xl font-bold mb-3">{service.title}</h3>
-                <p className="text-gray-400 mb-6">{service.description}</p>
+                <p className="text-gray-200 mb-6">{service.description}</p>
 
                 <ul className="space-y-3">
                   {service.features.map((feature) => (
@@ -720,7 +413,7 @@ export default function Home() {
             <h2 className="font-display text-4xl sm:text-5xl font-bold mb-4">
               How a <span className="gradient-text">turnkey event</span> works
             </h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-200 max-w-2xl mx-auto">
               One conversation to a finished night — proposal, planning, show, and wrap-up.
             </p>
           </div>
@@ -733,7 +426,7 @@ export default function Home() {
               >
                 <div className="text-primary-400 font-display font-bold text-sm mb-3">{item.step}</div>
                 <h3 className="font-display text-xl font-bold mb-2">{item.title}</h3>
-                <p className="text-gray-400 text-sm leading-relaxed">{item.description}</p>
+                <p className="text-gray-200 text-sm leading-relaxed">{item.description}</p>
               </div>
             ))}
           </div>
@@ -746,7 +439,7 @@ export default function Home() {
             <h2 className="font-display text-4xl sm:text-5xl font-bold mb-4">
               Events we <span className="gradient-text">produce</span>
             </h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-200 max-w-2xl mx-auto">
               Weddings, corporate, birthdays, and private parties — same crew, same standard.
             </p>
           </div>
@@ -765,7 +458,7 @@ export default function Home() {
                   </div>
 
                   <h3 className="font-display text-2xl font-bold mb-3">{event.title}</h3>
-                  <p className="text-gray-400 mb-6">{event.description}</p>
+                  <p className="text-gray-200 mb-6">{event.description}</p>
 
                   <ul className="space-y-2">
                     {event.features.map((feature) => (
@@ -796,7 +489,7 @@ export default function Home() {
             <h2 className="font-display text-4xl sm:text-5xl font-bold mb-4">
               Packages for <span className="gradient-text">every event</span>
             </h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-200 max-w-2xl mx-auto">
               Starting prices only. Every quote is built around your date, venue, and guest count.
             </p>
           </div>
@@ -819,7 +512,7 @@ export default function Home() {
 
                 <h3 className="font-display text-2xl font-bold mb-2">{pkg.name}</h3>
                 <div className="text-3xl font-bold gradient-text mb-2">{pkg.price}</div>
-                <p className="text-gray-400 mb-6">{pkg.description}</p>
+                <p className="text-gray-200 mb-6">{pkg.description}</p>
 
                 <ul className="space-y-3 mb-8">
                   {pkg.features.map((feature) => (
@@ -853,7 +546,7 @@ export default function Home() {
               <h2 className="font-display text-4xl sm:text-5xl font-bold mb-6">
                 Why choose <span className="gradient-text">Fused Productions?</span>
               </h2>
-              <p className="text-xl text-gray-400 mb-8">
+              <p className="text-xl text-gray-200 mb-8">
                 Your event should feel like one production, not a pile of vendors. We run entertainment,
                 catering, and planning as a single crew — one timeline, one invoice, one number to call.
               </p>
@@ -865,7 +558,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-lg mb-1">Single point of contact</h3>
-                    <p className="text-gray-400">
+                    <p className="text-gray-200">
                       DJ, lights, food, and day-of management answer to the same production lead.
                     </p>
                   </div>
@@ -877,7 +570,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-lg mb-1">One timeline</h3>
-                    <p className="text-gray-400">
+                    <p className="text-gray-200">
                       Load-in, dinner, speeches, and last dance are designed to fit — not stacked at the last minute.
                     </p>
                   </div>
@@ -889,7 +582,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-lg mb-1">One invoice</h3>
-                    <p className="text-gray-400">
+                    <p className="text-gray-200">
                       Bundled services, local insured crew, and a quote written for your date — not a catalog SKU.
                     </p>
                   </div>
@@ -919,7 +612,7 @@ export default function Home() {
             <h2 className="font-display text-4xl sm:text-5xl font-bold mb-4">
               What our <span className="gradient-text">clients say</span>
             </h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-200 max-w-2xl mx-auto">
               Couples, companies, and families who wanted one team instead of five vendors.
             </p>
           </div>
@@ -952,7 +645,7 @@ export default function Home() {
                   </div>
                   <div>
                     <div className="font-semibold">{testimonial.name}</div>
-                    <div className="text-sm text-gray-400">
+                    <div className="text-sm text-gray-200">
                       {testimonial.event}
                       {testimonial.company && ` — ${testimonial.company}`}
                     </div>
@@ -969,28 +662,28 @@ export default function Home() {
                   <ClipboardList className="w-7 h-7 text-primary-400" />
                 </div>
                 <div className="font-semibold">Turnkey production</div>
-                <div className="text-sm text-gray-400">Entertainment, catering, planning</div>
+                <div className="text-sm text-gray-200">Entertainment, catering, planning</div>
               </div>
               <div className="text-center">
                 <div className="w-14 h-14 mx-auto rounded-xl bg-accent-500/20 flex items-center justify-center mb-3">
                   <Shield className="w-7 h-7 text-accent-400" />
                 </div>
                 <div className="font-semibold">Insured crew</div>
-                <div className="text-sm text-gray-400">Professional production coverage</div>
+                <div className="text-sm text-gray-200">Professional production coverage</div>
               </div>
               <div className="text-center">
                 <div className="w-14 h-14 mx-auto rounded-xl bg-primary-500/20 flex items-center justify-center mb-3">
                   <Clock className="w-7 h-7 text-primary-400" />
                 </div>
                 <div className="font-semibold">On the clock</div>
-                <div className="text-sm text-gray-400">Load-in windows you can plan around</div>
+                <div className="text-sm text-gray-200">Load-in windows you can plan around</div>
               </div>
               <div className="text-center">
                 <div className="w-14 h-14 mx-auto rounded-xl bg-accent-500/20 flex items-center justify-center mb-3">
                   <Phone className="w-7 h-7 text-accent-400" />
                 </div>
                 <div className="font-semibold">One number</div>
-                <div className="text-sm text-gray-400">{SITE.phoneDisplay}</div>
+                <div className="text-sm text-gray-200">{SITE.phoneDisplay}</div>
               </div>
             </div>
           </div>
@@ -1003,47 +696,9 @@ export default function Home() {
             <h2 className="font-display text-4xl sm:text-5xl font-bold mb-4">
               Frequently asked <span className="gradient-text">questions</span>
             </h2>
-            <p className="text-xl text-gray-400">Planning, venues, weather, deposits, and dietary needs.</p>
+            <p className="text-xl text-gray-200">Planning, venues, weather, deposits, and dietary needs.</p>
           </div>
-
-          <div className="space-y-4">
-            {faqs.map((faq, index) => (
-              <div
-                key={index}
-                className="rounded-2xl bg-gray-900/50 border border-white/5 overflow-hidden"
-              >
-                <button
-                  className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-white/5 transition-colors"
-                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                >
-                  <span className="font-semibold text-lg pr-4">{faq.question}</span>
-                  <ChevronDown
-                    className={`w-5 h-5 text-gray-400 flex-shrink-0 transition-transform duration-300 ${
-                      openFaq === index ? 'rotate-180' : ''
-                    }`}
-                  />
-                </button>
-                <div
-                  className={`overflow-hidden transition-all duration-300 ${
-                    openFaq === index ? 'max-h-96' : 'max-h-0'
-                  }`}
-                >
-                  <div className="px-6 pb-5 text-gray-400 leading-relaxed">{faq.answer}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-12 text-center">
-            <p className="text-gray-400 mb-4">Still have questions?</p>
-            <a
-              href="#contact"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-500 to-accent-500 rounded-xl font-semibold hover:opacity-90 transition-opacity"
-            >
-              Contact us
-              <ChevronRight className="w-5 h-5" />
-            </a>
-          </div>
+          <FaqList faqs={faqs} />
         </div>
       </section>
 
@@ -1055,7 +710,7 @@ export default function Home() {
                 Let&apos;s create something{' '}
                 <span className="gradient-text">unforgettable</span>
               </h2>
-              <p className="text-xl text-gray-400 mb-8">
+              <p className="text-xl text-gray-200 mb-8">
                 Ready to start planning? Call, email, or send the form — we will reply with a custom
                 quote for entertainment, catering, and planning.
               </p>
@@ -1066,7 +721,7 @@ export default function Home() {
                     <Phone className="w-6 h-6 text-primary-400" />
                   </div>
                   <div>
-                    <div className="text-gray-400 text-sm">Call us</div>
+                    <div className="text-gray-200 text-sm">Call us</div>
                     <a href={`tel:${SITE.phoneTel}`} className="text-lg font-semibold hover:text-primary-400">
                       {SITE.phoneDisplay}
                     </a>
@@ -1078,7 +733,7 @@ export default function Home() {
                     <Mail className="w-6 h-6 text-accent-400" />
                   </div>
                   <div>
-                    <div className="text-gray-400 text-sm">Email us</div>
+                    <div className="text-gray-200 text-sm">Email us</div>
                     <a
                       href={`mailto:${SITE.email}`}
                       className="text-lg font-semibold hover:text-accent-400"
@@ -1093,7 +748,7 @@ export default function Home() {
                     <Globe className="w-6 h-6 text-primary-400" />
                   </div>
                   <div>
-                    <div className="text-gray-400 text-sm">Website</div>
+                    <div className="text-gray-200 text-sm">Website</div>
                     <a
                       href={SITE.url}
                       className="text-lg font-semibold hover:text-primary-400"
@@ -1110,9 +765,9 @@ export default function Home() {
                     <MapPin className="w-6 h-6 text-accent-400" />
                   </div>
                   <div>
-                    <div className="text-gray-400 text-sm">Service area</div>
+                    <div className="text-gray-200 text-sm">Service area</div>
                     <div className="text-lg font-semibold">{SITE.serviceArea}</div>
-                    <div className="text-sm text-gray-500">{SITE.serviceAreaDetail}</div>
+                    <div className="text-sm text-gray-200">{SITE.serviceAreaDetail}</div>
                   </div>
                 </div>
               </div>
@@ -1138,27 +793,31 @@ export default function Home() {
                 </span>
               </div>
 
-              <div className="flex flex-wrap items-center justify-center gap-6 text-gray-400">
+              <div className="flex flex-wrap items-center justify-center gap-6">
                 {navLinks.map((link) => (
-                  <a key={link.href} href={link.href} className="hover:text-white transition-colors">
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    className="text-gray-200 hover:text-white transition-colors"
+                  >
                     {link.label}
                   </a>
                 ))}
-                <a href="#contact" className="hover:text-white transition-colors">
+                <a href="#contact" className="text-gray-200 hover:text-white transition-colors">
                   Contact
                 </a>
               </div>
             </div>
 
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-200">
               <div className="flex flex-wrap items-center justify-center gap-4">
-                <a href={`tel:${SITE.phoneTel}`} className="hover:text-white">
+                <a href={`tel:${SITE.phoneTel}`} className="text-gray-200 hover:text-white">
                   {SITE.phoneDisplay}
                 </a>
-                <a href={`mailto:${SITE.email}`} className="hover:text-white">
+                <a href={`mailto:${SITE.email}`} className="text-gray-200 hover:text-white">
                   {SITE.email}
                 </a>
-                <a href={SITE.url} className="hover:text-white" target="_blank" rel="noreferrer">
+                <a href={SITE.url} className="text-gray-200 hover:text-white" target="_blank" rel="noreferrer">
                   fusedproductions.com
                 </a>
               </div>
