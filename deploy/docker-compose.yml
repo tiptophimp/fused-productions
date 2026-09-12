@@ -1,0 +1,22 @@
+# Production deployment config for the GMKtec host.
+#
+# Deploy-only: there is deliberately no `build:` stanza here, so a `docker compose
+# up` in the deployment directory can never rebuild from whatever source happens
+# to be sitting on disk.
+name: fused-productions
+
+services:
+  fusedproductions-web:
+    image: ${FUSED_IMAGE:?FUSED_IMAGE must be set to a SHA-pinned GHCR tag}
+    container_name: fusedproductions-web
+    ports:
+      - "127.0.0.1:3010:3000"
+    environment:
+      NODE_ENV: production
+    restart: always
+    networks:
+      - gateway
+
+networks:
+  gateway:
+    external: true

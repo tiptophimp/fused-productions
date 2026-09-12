@@ -1,0 +1,33 @@
+name: Deploy Fused Productions
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: fused-productions-deploy
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-deploy:
+    runs-on: [self-hosted, Linux, gmktec-fused]
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build and push image
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash scripts/build-push-image.sh
+
+      - name: Deploy to production
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash scripts/deploy-production.sh
