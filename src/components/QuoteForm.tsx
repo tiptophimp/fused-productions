@@ -11,7 +11,7 @@ const serviceOptions = [
 ] as const;
 
 const fieldClass =
-  'w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-xl text-white placeholder:text-gray-400 focus:outline-none focus:border-primary-500 transition-colors';
+  'w-full px-4 py-3 bg-gray-800 border border-white/10 rounded-xl text-white placeholder:text-gray-300 focus:outline-none focus:border-primary-500 transition-colors';
 
 export default function QuoteForm() {
   const [status, setStatus] = useState<'idle' | 'sent' | 'error'>('idle');

@@ -57,7 +57,9 @@ export default function RootLayout({
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jsonLd).replaceAll('@', '\\u0040'),
+          }}
         />
       </head>
       <body className="bg-gray-950 text-white antialiased">{children}</body>

@@ -21,6 +21,7 @@ import {
   Clock,
   Receipt,
 } from 'lucide-react';
+import ContactEmail from '@/components/ContactEmail';
 import FaqList from '@/components/FaqList';
 import QuoteForm from '@/components/QuoteForm';
 import SiteNav from '@/components/SiteNav';
@@ -324,7 +325,7 @@ export default function Home() {
 
           <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 tracking-tight">
             Entertainment. Catering.{' '}
-            <span className="gradient-text animate-gradient">Planning.</span>
+            <span className="gradient-text">Planning.</span>
             <br />
             One team for the whole night.
           </h1>
@@ -734,12 +735,7 @@ export default function Home() {
                   </div>
                   <div>
                     <div className="text-gray-200 text-sm">Email us</div>
-                    <a
-                      href={`mailto:${SITE.email}`}
-                      className="text-lg font-semibold hover:text-accent-400"
-                    >
-                      {SITE.email}
-                    </a>
+                    <ContactEmail className="text-lg font-semibold hover:text-accent-400" />
                   </div>
                 </div>
 
@@ -814,9 +810,7 @@ export default function Home() {
                 <a href={`tel:${SITE.phoneTel}`} className="text-gray-200 hover:text-white">
                   {SITE.phoneDisplay}
                 </a>
-                <a href={`mailto:${SITE.email}`} className="text-gray-200 hover:text-white">
-                  {SITE.email}
-                </a>
+                <ContactEmail className="text-gray-200 hover:text-white" />
                 <a href={SITE.url} className="text-gray-200 hover:text-white" target="_blank" rel="noreferrer">
                   fusedproductions.com
                 </a>
