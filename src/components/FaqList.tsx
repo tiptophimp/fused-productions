@@ -8,7 +8,13 @@ type Faq = {
   answer: string;
 };
 
-export default function FaqList({ faqs }: { faqs: Faq[] }) {
+export default function FaqList({
+  faqs,
+  hideContactCta = false,
+}: {
+  faqs: Faq[];
+  hideContactCta?: boolean;
+}) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   return (
@@ -39,16 +45,18 @@ export default function FaqList({ faqs }: { faqs: Faq[] }) {
         ))}
       </div>
 
-      <div className="mt-12 text-center">
-        <p className="text-gray-200 mb-4">Still have questions?</p>
-        <a
-          href="#contact"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-500 to-accent-500 rounded-xl font-semibold hover:opacity-90 transition-opacity"
-        >
-          Contact us
-          <ChevronRight className="w-5 h-5" />
-        </a>
-      </div>
+      {!hideContactCta && (
+        <div className="mt-12 text-center">
+          <p className="text-gray-200 mb-4">Still have questions?</p>
+          <a
+            href="/#contact"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-500 to-accent-500 rounded-xl font-semibold hover:opacity-90 transition-opacity"
+          >
+            Contact us
+            <ChevronRight className="w-5 h-5" />
+          </a>
+        </div>
+      )}
     </>
   );
 }

@@ -16,9 +16,13 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: 'Fused Productions | Entertainment, Catering & Event Planning',
+  metadataBase: new URL(SITE.url),
+  title: {
+    default: 'Wedding DJ, Catering & Event Planning | Cleveland, Mentor, Painesville',
+    template: '%s | Fused Productions',
+  },
   description:
-    'Turnkey events in Northeast Ohio. DJ entertainment, laser light shows, catering, and full event planning for weddings, corporate events, birthdays, and private parties — one team, one timeline, one invoice.',
+    'Fused Productions produces weddings, corporate events, birthdays, and private parties in Northeast Ohio — DJ entertainment, laser light shows, catering, and full event planning. One team, one timeline, one invoice.',
   keywords: [
     'event planning',
     'event services',
@@ -35,15 +39,18 @@ export const metadata: Metadata = {
     'Cleveland DJ',
   ],
   openGraph: {
-    title: 'Fused Productions | Entertainment, Catering & Event Planning',
+    title: 'Wedding DJ, Catering & Event Planning | Cleveland, Mentor, Painesville',
     description:
       'Turnkey events in Northeast Ohio. DJ, laser shows, catering, and full planning — one trusted team.',
     url: SITE.url,
     siteName: SITE.name,
+    locale: 'en_US',
     type: 'website',
   },
-  alternates: {
-    canonical: SITE.url,
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Fused Productions | Northeast Ohio Event Production',
+    description: 'DJ, laser shows, catering, and event planning in Cleveland, Mentor, and Painesville.',
   },
 };
 

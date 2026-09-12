@@ -24,12 +24,18 @@ import {
 import ContactEmail from '@/components/ContactEmail';
 import FaqList from '@/components/FaqList';
 import QuoteForm from '@/components/QuoteForm';
+import SiteFooter from '@/components/SiteFooter';
 import SiteNav from '@/components/SiteNav';
-import { navLinks } from '@/lib/nav';
+import { faqs } from '@/lib/faqs';
 import { SITE } from '@/lib/site';
+
+export const metadata = {
+  alternates: { canonical: SITE.url },
+};
 
 const services = [
   {
+    href: '/dj-services',
     icon: Music,
     title: 'DJ Services',
     description:
@@ -43,6 +49,7 @@ const services = [
     ],
   },
   {
+    href: '/laser-light-shows',
     icon: Sparkles,
     title: 'Laser Light Shows',
     description:
@@ -56,6 +63,7 @@ const services = [
     ],
   },
   {
+    href: '/catering',
     icon: UtensilsCrossed,
     title: 'Catering',
     description:
@@ -69,6 +77,7 @@ const services = [
     ],
   },
   {
+    href: '/event-planning',
     icon: ClipboardList,
     title: 'Event Planning',
     description:
@@ -199,6 +208,7 @@ const testimonials = [
 
 const eventTypes = [
   {
+    href: '/weddings',
     icon: Heart,
     title: 'Weddings',
     description:
@@ -211,6 +221,7 @@ const eventTypes = [
     ],
   },
   {
+    href: '/corporate-events',
     icon: Building2,
     title: 'Corporate Events',
     description:
@@ -223,10 +234,11 @@ const eventTypes = [
     ],
   },
   {
+    href: '/birthdays',
     icon: Cake,
     title: 'Birthdays & milestones',
     description:
-      'Sweet sixteens, 21sts, 50ths, retirements, and quinceaÃ±eras with a party that actually feels produced.',
+      'Sweet sixteens, 21sts, 50ths, retirements, and quinceaneras with a party that actually feels produced.',
     features: [
       'Milestone and surprise parties',
       'Age-appropriate playlists and MC',
@@ -235,6 +247,7 @@ const eventTypes = [
     ],
   },
   {
+    href: '/private-parties',
     icon: PartyPopper,
     title: 'Private Parties',
     description:
@@ -248,68 +261,24 @@ const eventTypes = [
   },
 ];
 
-const faqs = [
-  {
-    question: 'How far in advance should I book?',
-    answer:
-      'Book 3–6 months ahead for weddings and large corporate events. Smaller private parties and birthdays are often fine at 4–6 weeks. Peak summer weekends can fill much earlier — call if the date is already close.',
-  },
-  {
-    question: 'Can I customize a package?',
-    answer:
-      'Yes. Essential, Premium, and Ultimate are starting points. Mix DJ hours, laser looks, catering, and planning so the quote matches the venue and guest count.',
-  },
-  {
-    question: 'What does event planning include?',
-    answer:
-      'We build the run of show, coordinate entertainment and catering with your venue, manage vendor arrival windows, and staff day-of so announcements, dinner, and dancing land on time. You get one contact instead of a chain of texts.',
-  },
-  {
-    question: 'Do you provide tastings for catering?',
-    answer:
-      'Complimentary tastings are offered on catering packages over $3,000 so you can settle menu and dietary needs with the culinary team before the event.',
-  },
-  {
-    question: 'What areas do you serve?',
-    answer:
-      'Northeast Ohio — Cleveland, Mentor, Painesville, and surrounding communities. We travel for destination events; ask about availability and travel fees.',
-  },
-  {
-    question: 'How do deposits and payment work?',
-    answer:
-      'A deposit holds the date once you approve the proposal. Remaining balance is due before event day. We will spell out the schedule on the quote so there are no surprises.',
-  },
-  {
-    question: 'What does the venue need to provide?',
-    answer:
-      'Power, load-in access, and a clear setup window. Outdoor and tent events may need weather cover and grounded power. We will confirm electrical, staging, and catering kitchen access during planning.',
-  },
-  {
-    question: 'What if the weather turns on an outdoor event?',
-    answer:
-      'We plan a rain path with you and the venue — tent, indoor backup, or adjusted lighting and sound. Lasers and sound are weather-rated for covered outdoor use; open-sky setups get a written backup plan.',
-  },
-  {
-    question: 'Do you work with our venue’s preferred vendors?',
-    answer:
-      'Yes. We coordinate with house A/V, catering restrictions, and preferred-vendor lists so we are not fighting the venue on event day.',
-  },
-  {
-    question: 'What happens if there is an equipment issue?',
-    answer:
-      'We bring backup equipment to every event. The crew handles technical issues quickly and quietly so guests never see it.',
-  },
-  {
-    question: 'Can you accommodate dietary restrictions?',
-    answer:
-      'Yes — vegetarian, vegan, gluten-free, kosher-style, and allergy-aware plates. Flag needs during planning so they are on the tasting and the event-day tickets.',
-  },
-];
-
 export default function Home() {
   return (
     <div className="min-h-screen">
       <SiteNav />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: faqs.map((faq) => ({
+              '@type': 'Question',
+              name: faq.question,
+              acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+            })),
+          }).replaceAll('@', '\\u0040'),
+        }}
+      />
       <section id="top" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary-900/20 via-gray-950 to-gray-950" />
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl" />
@@ -402,6 +371,13 @@ export default function Home() {
                     </li>
                   ))}
                 </ul>
+                <a
+                  href={service.href}
+                  className="mt-6 inline-flex items-center gap-2 text-primary-300 font-medium group-hover:text-primary-200"
+                >
+                  {service.title} in Northeast Ohio
+                  <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </a>
               </div>
             ))}
           </div>
@@ -471,10 +447,10 @@ export default function Home() {
                   </ul>
 
                   <a
-                    href="#contact"
-                    className="mt-6 inline-flex items-center gap-2 text-primary-400 font-medium group-hover:text-primary-300 transition-colors"
+                    href={event.href}
+                    className="mt-6 inline-flex items-center gap-2 text-primary-300 font-medium group-hover:text-primary-200 transition-colors"
                   >
-                    Plan your {event.title.toLowerCase()}
+                    {event.title} in Cleveland, Mentor & Painesville
                     <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </a>
                 </div>
@@ -776,52 +752,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="py-12 border-t border-white/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col gap-8">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center">
-                  <Sparkles className="w-5 h-5 text-white" />
-                </div>
-                <span className="font-display font-bold text-xl">
-                  Fused<span className="text-primary-400">Productions</span>
-                </span>
-              </div>
-
-              <div className="flex flex-wrap items-center justify-center gap-6">
-                {navLinks.map((link) => (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    className="text-gray-200 hover:text-white transition-colors"
-                  >
-                    {link.label}
-                  </a>
-                ))}
-                <a href="#contact" className="text-gray-200 hover:text-white transition-colors">
-                  Contact
-                </a>
-              </div>
-            </div>
-
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-200">
-              <div className="flex flex-wrap items-center justify-center gap-4">
-                <a href={`tel:${SITE.phoneTel}`} className="text-gray-200 hover:text-white">
-                  {SITE.phoneDisplay}
-                </a>
-                <ContactEmail className="text-gray-200 hover:text-white" />
-                <a href={SITE.url} className="text-gray-200 hover:text-white" target="_blank" rel="noreferrer">
-                  fusedproductions.com
-                </a>
-              </div>
-              <div>
-                &copy; {new Date().getFullYear()} Fused Productions. All rights reserved.
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

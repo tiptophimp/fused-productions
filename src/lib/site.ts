@@ -27,6 +27,8 @@ export const jsonLd = {
     { '@type': 'City', name: 'Cleveland' },
     { '@type': 'City', name: 'Mentor' },
     { '@type': 'City', name: 'Painesville' },
+    { '@type': 'City', name: 'Willoughby' },
+    { '@type': 'AdministrativeArea', name: 'Lake County' },
     { '@type': 'State', name: 'Ohio' },
   ],
   description:

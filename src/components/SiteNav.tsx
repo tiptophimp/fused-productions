@@ -12,7 +12,7 @@ export default function SiteNav() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-950/95 backdrop-blur-xl border-b border-white/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <a href="#top" className="flex items-center gap-2">
+          <a href="/" className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center">
               <Sparkles className="w-5 h-5 text-white" />
             </div>
@@ -39,7 +39,7 @@ export default function SiteNav() {
               {SITE.phoneDisplay}
             </a>
             <a
-              href="#contact"
+              href="/#contact"
               className="px-4 py-2 bg-gradient-to-r from-primary-500 to-accent-500 rounded-lg font-medium hover:opacity-90 transition-opacity"
             >
               Get quote
@@ -77,7 +77,7 @@ export default function SiteNav() {
               Call {SITE.phoneDisplay}
             </a>
             <a
-              href="#contact"
+              href="/#contact"
               className="block px-4 py-2 bg-gradient-to-r from-primary-500 to-accent-500 rounded-lg font-medium text-center"
               onClick={() => setMobileMenuOpen(false)}
             >
