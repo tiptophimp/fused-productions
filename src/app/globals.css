@@ -121,3 +121,66 @@
     box-shadow: 0 0 40px -5px theme('colors.primary.500');
   }
 }
+
+.laser-beam {
+  position: absolute;
+  bottom: 8%;
+  left: 50%;
+  width: 4px;
+  height: 130%;
+  transform-origin: bottom center;
+  filter: blur(1.5px);
+  opacity: 0.55;
+  mix-blend-mode: screen;
+}
+
+.laser-beam-a {
+  background: linear-gradient(to top, transparent, rgb(56 189 248 / 0.95), transparent);
+  animation: laserSweepA 9s ease-in-out infinite;
+}
+
+.laser-beam-b {
+  background: linear-gradient(to top, transparent, rgb(217 70 239 / 0.9), transparent);
+  animation: laserSweepB 11s ease-in-out infinite;
+}
+
+.laser-beam-c {
+  background: linear-gradient(to top, transparent, rgb(125 211 252 / 0.85), transparent);
+  animation: laserSweepC 8s ease-in-out infinite;
+}
+
+.laser-beam-d {
+  background: linear-gradient(to top, transparent, rgb(232 121 249 / 0.75), transparent);
+  animation: laserSweepD 13s ease-in-out infinite;
+}
+
+@keyframes laserSweepA {
+  0%, 100% { transform: translateX(-50%) rotate(-18deg); }
+  50% { transform: translateX(-50%) rotate(14deg); }
+}
+
+@keyframes laserSweepB {
+  0%, 100% { transform: translateX(-50%) rotate(22deg); }
+  50% { transform: translateX(-50%) rotate(-12deg); }
+}
+
+@keyframes laserSweepC {
+  0%, 100% { transform: translateX(-50%) rotate(-6deg); }
+  50% { transform: translateX(-50%) rotate(26deg); }
+}
+
+@keyframes laserSweepD {
+  0%, 100% { transform: translateX(-50%) rotate(8deg); }
+  50% { transform: translateX(-50%) rotate(-24deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .laser-beam {
+    animation: none;
+    opacity: 0.28;
+  }
+  .laser-beam-a { transform: translateX(-50%) rotate(-16deg); }
+  .laser-beam-b { transform: translateX(-50%) rotate(18deg); }
+  .laser-beam-c { transform: translateX(-50%) rotate(-4deg); }
+  .laser-beam-d { transform: translateX(-50%) rotate(10deg); }
+}

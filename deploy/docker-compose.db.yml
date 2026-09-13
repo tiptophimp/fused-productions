@@ -1,0 +1,32 @@
+# Optional Postgres on the same GMKtec host.
+# From /home/ernest/projects/active/fused-productions:
+#   docker compose -f docker-compose.yml -f docker-compose.db.yml up -d
+#
+# Then set in .env:
+#   DATABASE_URL=postgresql://fused:YOUR_PASSWORD@fusedproductions-db:5432/fused
+name: fused-productions
+
+services:
+  fusedproductions-db:
+    image: postgres:16-alpine
+    container_name: fusedproductions-db
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-fused}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-fused}
+    volumes:
+      - fused_pg:/var/lib/postgresql/data
+    networks:
+      - gateway
+
+  fusedproductions-web:
+    depends_on:
+      - fusedproductions-db
+
+networks:
+  gateway:
+    external: true
+
+volumes:
+  fused_pg:

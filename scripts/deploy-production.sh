@@ -23,12 +23,25 @@ docker pull "$FUSED_IMAGE"
 # Publish deploy config out of the ephemeral runner workspace
 mkdir -p "$DEPLOY_DIR"
 install -m 0644 deploy/docker-compose.yml "$DEPLOY_DIR/docker-compose.yml"
+install -m 0644 deploy/docker-compose.db.yml "$DEPLOY_DIR/docker-compose.db.yml"
+install -m 0644 deploy/env.example "$DEPLOY_DIR/env.example"
 
-# Write .env with image pin
-( umask 077
-  printf 'FUSED_IMAGE=%s\n' "$FUSED_IMAGE" >"$DEPLOY_DIR/.env"
-)
-chmod 0600 "$DEPLOY_DIR/.env"
+# Pin the image tag without wiping operator secrets (Stripe, DB, JWT, SMTP).
+ENV_FILE="$DEPLOY_DIR/.env"
+REST="$(mktemp)"
+umask 077
+if [ -f "$ENV_FILE" ]; then
+  grep -v '^FUSED_IMAGE=' "$ENV_FILE" >"$REST" || true
+else
+  : >"$REST"
+fi
+{
+  printf 'FUSED_IMAGE=%s\n' "$FUSED_IMAGE"
+  cat "$REST"
+} >"${ENV_FILE}.new"
+mv "${ENV_FILE}.new" "$ENV_FILE"
+rm -f "$REST"
+chmod 0600 "$ENV_FILE"
 
 cd "$DEPLOY_DIR"
 docker compose -p "$COMPOSE_PROJECT" up -d --remove-orphans

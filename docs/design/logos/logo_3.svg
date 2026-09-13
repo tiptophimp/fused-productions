@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 320" width="100%" height="100%">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#C5A059" />
+      <stop offset="100%" stop-color="#E6CA88" />
+    </linearGradient>
+    <linearGradient id="darkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1B2430" />
+      <stop offset="100%" stop-color="#11161D" />
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="320" fill="#FFFFFF" rx="12"/>
+
+  <circle cx="160" cy="140" r="115" fill="none" stroke="url(#darkGrad)" stroke-width="6" opacity="0.15"/>
+  <circle cx="160" cy="140" r="105" fill="none" stroke="url(#darkGrad)" stroke-width="4"/>
+
+  <rect x="95" y="215" width="130" height="18" fill="#78828A" rx="2"/>
+  <line x1="95" y1="220" x2="225" y2="220" stroke="#5A646D" stroke-width="2" stroke-dasharray="6,4"/>
+
+  <polygon points="160,50 240,105 240,118 160,65 80,118 80,105" fill="url(#darkGrad)"/>
+  <rect x="90" y="118" width="10" height="98" fill="url(#darkGrad)" rx="1"/>
+  <rect x="220" y="118" width="10" height="98" fill="url(#darkGrad)" rx="1"/>
+
+  <rect x="108" y="155" width="14" height="60" fill="url(#goldGrad)" rx="1"/>
+  <rect x="128" y="135" width="14" height="80" fill="url(#darkGrad)" rx="1"/>
+  <rect x="148" y="170" width="14" height="45" fill="url(#goldGrad)" rx="1"/>
+  <rect x="168" y="125" width="14" height="90" fill="url(#darkGrad)" rx="1"/>
+  <rect x="188" y="105" width="14" height="110" fill="url(#goldGrad)" rx="1"/>
+
+  <rect x="85" y="115" width="150" height="6" fill="url(#darkGrad)"/>
+
+  <text x="310" y="150" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="64" fill="#1B2430" letter-spacing="3">OMNI</text>
+  <text x="490" y="150" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-weight="300" font-size="64" fill="#C5A059" letter-spacing="3">LEDGR</text>
+
+  <text x="313" y="190" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-weight="600" font-size="15" fill="#5A646D" letter-spacing="4">FINANCIAL FRAMEWORK | BUILDING WEALTH</text>
+
+  <line x1="313" y1="208" x2="745" y2="208" stroke="#C5A059" stroke-width="2" opacity="0.5"/>
+</svg>

@@ -4,6 +4,7 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['lucide-react'],
   },
+  serverExternalPackages: ['@prisma/client', 'bcryptjs', 'stripe', 'nodemailer'],
   turbopack: {
     resolveAlias: {
       '../build/polyfills/polyfill-module': './src/lib/modern-polyfill.js',

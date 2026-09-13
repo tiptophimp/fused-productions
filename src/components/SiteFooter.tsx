@@ -46,6 +46,9 @@ export default function SiteFooter() {
           <a href="/#contact" className="text-gray-200 hover:text-white text-sm">
             Contact
           </a>
+          <a href="/login" className="text-gray-200 hover:text-white text-sm">
+            Portal login
+          </a>
         </div>
 
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-200 border-t border-white/5 pt-6">

@@ -34,6 +34,7 @@ export default function QuoteForm() {
     const eventType = String(data.get('eventType') ?? '').trim();
     const eventDate = String(data.get('eventDate') ?? '').trim();
     const guestCount = String(data.get('guestCount') ?? '').trim();
+    const budget = String(data.get('budget') ?? '').trim();
     const details = String(data.get('details') ?? '').trim();
 
     if (!firstName || !email) {
@@ -48,10 +49,28 @@ export default function QuoteForm() {
       `Event type: ${eventType || 'Not specified'}`,
       `Event date: ${eventDate || 'Not specified'}`,
       `Guest count: ${guestCount || 'Not specified'}`,
+      `Budget: ${budget || 'Not specified'}`,
       `Services: ${servicesNeeded.length ? servicesNeeded.join(', ') : 'Not specified'}`,
       '',
       details || '(No additional details)',
     ];
+
+    void fetch('/api/inquiries', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        firstName,
+        lastName,
+        email,
+        phone,
+        eventType,
+        eventDate,
+        guestCount,
+        budget,
+        services: servicesNeeded.join(', '),
+        details,
+      }),
+    });
 
     const subject = encodeURIComponent(
       `Event quote — ${firstName} ${lastName}`.trim() + (eventType ? ` (${eventType})` : '')
@@ -145,6 +164,7 @@ export default function QuoteForm() {
         </div>
       </div>
 
+      <div className="grid sm:grid-cols-2 gap-6">
       <div>
         <label htmlFor="guestCount" className="block text-sm font-medium text-gray-200 mb-2">
           Guest count
@@ -157,6 +177,19 @@ export default function QuoteForm() {
           className={fieldClass}
           placeholder="120"
         />
+      </div>
+      <div>
+        <label htmlFor="budget" className="block text-sm font-medium text-gray-200 mb-2">
+          Estimated budget
+        </label>
+        <input
+          id="budget"
+          name="budget"
+          type="text"
+          className={fieldClass}
+          placeholder="$8,000"
+        />
+      </div>
       </div>
 
       <fieldset>

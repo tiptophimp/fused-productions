@@ -21,12 +21,15 @@ import {
   Clock,
   Receipt,
 } from 'lucide-react';
+import Image from 'next/image';
 import ContactEmail from '@/components/ContactEmail';
 import FaqList from '@/components/FaqList';
+import LaserBeams from '@/components/LaserBeams';
 import QuoteForm from '@/components/QuoteForm';
 import SiteFooter from '@/components/SiteFooter';
 import SiteNav from '@/components/SiteNav';
 import { faqs } from '@/lib/faqs';
+import { images } from '@/lib/media';
 import { SITE } from '@/lib/site';
 
 export const metadata = {
@@ -36,6 +39,7 @@ export const metadata = {
 const services = [
   {
     href: '/dj-services',
+    image: images.dj,
     icon: Music,
     title: 'DJ Services',
     description:
@@ -50,6 +54,7 @@ const services = [
   },
   {
     href: '/laser-light-shows',
+    image: images.lasers,
     icon: Sparkles,
     title: 'Laser Light Shows',
     description:
@@ -64,6 +69,7 @@ const services = [
   },
   {
     href: '/catering',
+    image: images.catering,
     icon: UtensilsCrossed,
     title: 'Catering',
     description:
@@ -78,6 +84,7 @@ const services = [
   },
   {
     href: '/event-planning',
+    image: images.planning,
     icon: ClipboardList,
     title: 'Event Planning',
     description:
@@ -209,6 +216,7 @@ const testimonials = [
 const eventTypes = [
   {
     href: '/weddings',
+    image: images.wedding,
     icon: Heart,
     title: 'Weddings',
     description:
@@ -222,6 +230,7 @@ const eventTypes = [
   },
   {
     href: '/corporate-events',
+    image: images.corporate,
     icon: Building2,
     title: 'Corporate Events',
     description:
@@ -235,6 +244,7 @@ const eventTypes = [
   },
   {
     href: '/birthdays',
+    image: images.birthday,
     icon: Cake,
     title: 'Birthdays & milestones',
     description:
@@ -248,6 +258,7 @@ const eventTypes = [
   },
   {
     href: '/private-parties',
+    image: images.privateParty,
     icon: PartyPopper,
     title: 'Private Parties',
     description:
@@ -280,9 +291,16 @@ export default function Home() {
         }}
       />
       <section id="top" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary-900/20 via-gray-950 to-gray-950" />
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent-500/10 rounded-full blur-3xl" />
+        <Image
+          src={images.hero.src}
+          alt={images.hero.alt}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center opacity-45"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-950/75 via-gray-950/55 to-gray-950" />
+        <LaserBeams />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8">
@@ -354,11 +372,22 @@ export default function Home() {
             {services.map((service) => (
               <div
                 key={service.title}
-                className="group relative p-8 rounded-2xl bg-gray-900/50 border border-white/5 hover:border-primary-500/50 transition-all duration-300"
+                className="group relative overflow-hidden rounded-2xl bg-gray-900/50 border border-white/5 hover:border-primary-500/50 transition-all duration-300"
               >
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary-500/20 to-accent-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  <service.icon className="w-7 h-7 text-primary-400" />
+                <div className="relative aspect-[16/10] overflow-hidden">
+                  <Image
+                    src={service.image.src}
+                    alt={service.image.alt}
+                    fill
+                    sizes="(min-width: 768px) 50vw, 100vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/20 to-transparent" />
+                  <div className="absolute bottom-4 left-4 w-12 h-12 rounded-xl bg-gray-950/70 border border-white/10 flex items-center justify-center">
+                    <service.icon className="w-6 h-6 text-primary-300" />
+                  </div>
                 </div>
+                <div className="p-8 pt-6">
 
                 <h3 className="font-display text-2xl font-bold mb-3">{service.title}</h3>
                 <p className="text-gray-200 mb-6">{service.description}</p>
@@ -378,6 +407,7 @@ export default function Home() {
                   {service.title} in Northeast Ohio
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </a>
+                </div>
               </div>
             ))}
           </div>
@@ -427,12 +457,21 @@ export default function Home() {
                 key={event.title}
                 className="group relative overflow-hidden rounded-2xl bg-gray-900/50 border border-white/5 hover:border-primary-500/30 transition-all duration-500"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 to-accent-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative aspect-[16/9] overflow-hidden">
+                  <Image
+                    src={event.image.src}
+                    alt={event.image.alt}
+                    fill
+                    sizes="(min-width: 768px) 50vw, 100vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/40 to-transparent" />
+                  <div className="absolute bottom-4 left-4 w-12 h-12 rounded-2xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center">
+                    <event.icon className="w-6 h-6 text-white" />
+                  </div>
+                </div>
 
                 <div className="relative p-8">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <event.icon className="w-8 h-8 text-white" />
-                  </div>
 
                   <h3 className="font-display text-2xl font-bold mb-3">{event.title}</h3>
                   <p className="text-gray-200 mb-6">{event.description}</p>
@@ -567,16 +606,19 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="relative">
-              <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary-500/20 to-accent-500/20 p-8 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-32 h-32 mx-auto rounded-full bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center mb-6">
-                    <Sparkles className="w-16 h-16 text-white" />
-                  </div>
-                  <p className="text-2xl font-display font-bold">
-                    Local, insured, one-call production for Northeast Ohio
-                  </p>
-                </div>
+            <div className="relative overflow-hidden rounded-2xl border border-white/10">
+              <div className="relative aspect-square">
+                <Image
+                  src={images.lasers.src}
+                  alt={images.lasers.alt}
+                  fill
+                  sizes="(min-width: 1024px) 40vw, 100vw"
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/30 to-transparent" />
+                <p className="absolute bottom-6 left-6 right-6 text-2xl font-display font-bold">
+                  Local, insured, one-call production for Northeast Ohio
+                </p>
               </div>
             </div>
           </div>

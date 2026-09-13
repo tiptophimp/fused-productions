@@ -1,11 +1,14 @@
+import Image from 'next/image';
 import { ChevronRight } from 'lucide-react';
 import { SITE } from '@/lib/site';
 import type { SeoPage } from '@/lib/seo-pages';
+import { seoPageImages } from '@/lib/media';
 import FaqList from '@/components/FaqList';
 import SiteFooter from '@/components/SiteFooter';
 import SiteNav from '@/components/SiteNav';
 
 export default function SeoArticle({ page }: { page: SeoPage }) {
+  const photo = seoPageImages[page.slug];
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -52,6 +55,18 @@ export default function SeoArticle({ page }: { page: SeoPage }) {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-sm font-medium text-primary-300 mb-4">{page.kicker}</p>
           <h1 className="font-display text-4xl sm:text-5xl font-bold mb-6 tracking-tight">{page.h1}</h1>
+          {photo ? (
+            <div className="relative mb-8 aspect-[16/9] overflow-hidden rounded-2xl border border-white/10">
+              <Image
+                src={photo.src}
+                alt={photo.alt}
+                fill
+                sizes="(min-width: 768px) 768px, 100vw"
+                className="object-cover"
+                priority
+              />
+            </div>
+          ) : null}
           <div className="space-y-5 text-lg text-gray-200 leading-relaxed">
             {page.paragraphs.map((paragraph) => (
               <p key={paragraph.slice(0, 40)}>{paragraph}</p>

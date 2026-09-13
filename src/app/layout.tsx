@@ -46,6 +46,14 @@ export const metadata: Metadata = {
     siteName: SITE.name,
     locale: 'en_US',
     type: 'website',
+    images: [
+      {
+        url: '/images/fused-hero-lasers.png',
+        width: 1376,
+        height: 768,
+        alt: 'Laser beams over a night-time outdoor venue',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
