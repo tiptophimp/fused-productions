@@ -38,3 +38,7 @@ npm start
 Production runs on GMKtec via Nginx Proxy Manager with Let's Encrypt SSL.
 
 Domain: [fusedproductions.com](https://fusedproductions.com)
+
+## Working files (drop here)
+
+Site plans, logos, concepts, and contract templates: `docs\`. See `docs\README.md` for which subfolder to use.

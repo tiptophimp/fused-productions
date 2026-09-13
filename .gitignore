@@ -36,3 +36,11 @@ next-env.d.ts
 # IDE
 .idea/
 .vscode/
+
+# Signed contracts and PII — keep on this machine, never GitHub
+/docs/contracts/signed/*
+!/docs/contracts/signed/.gitkeep
+
+# Large raw dumps (video, camera RAW) — keep on this machine
+/docs/media/inbox/*
+!/docs/media/inbox/.gitkeep
