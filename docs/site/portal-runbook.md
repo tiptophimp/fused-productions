@@ -26,9 +26,9 @@ Optional:
   - Webhook URL: `https://fusedproductions.com/api/stripe/webhook`
   - Events: `checkout.session.completed`, `checkout.session.async_payment_succeeded`
 - Mail: `RESEND_API_KEY` **or** `SMTP_HOST` / `SMTP_USER` / `SMTP_PASS` (or `SMTP_URL`)
-- Keep `FUSED_DEMO_PAYMENTS=0` in production
+- Keep `FUSED_DEMO_PAYMENTS=0` in production. Demo pay is ignored when `NODE_ENV=production`.
 
-Container boot runs `prisma migrate deploy` when `DATABASE_URL` is set (`RUN_MIGRATIONS=1`). Admin → **Drop-in keys** shows ready/not ready without printing secrets. `GET /api/health` returns the same flags.
+Container boot runs `prisma migrate deploy` when `DATABASE_URL` is set (`RUN_MIGRATIONS=1`). Admin → **Drop-in keys** shows ready/not ready without printing secrets. `GET /api/health` only reports `{ ok, database }`.
 
 ## Local Postgres
 
@@ -48,7 +48,7 @@ Logins use `SEED_PASSWORD` from `.env`:
 - `client@fusedproductions.com` → `/client`
 - `vendor@fusedproductions.com` → `/vendor`
 
-Set `FUSED_DEMO_PAYMENTS=1` so client “Pay draw” marks the ledger paid in development. With Stripe keys, Pay draw opens Checkout; the webhook (and the return URL) mark the milestone paid.
+Set `FUSED_DEMO_PAYMENTS=1` locally so client “Pay draw” marks the ledger paid in development. That flag does nothing in production. With Stripe keys, Pay draw opens Checkout; the webhook (and the return URL) mark the milestone paid.
 
 Admin can create clients/events/vendors, assign gigs, convert inquiries, complete events (survey opens after status=completed; due timestamp is +48h), and mark vendor invoices paid.
 

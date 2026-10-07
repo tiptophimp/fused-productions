@@ -1,3 +1,7 @@
+export function demoPaymentsAllowed() {
+  return process.env.NODE_ENV !== 'production' && process.env.FUSED_DEMO_PAYMENTS === '1';
+}
+
 export function integrationStatus() {
   const smtpHost = Boolean(process.env.SMTP_HOST);
   const smtpUrl = Boolean(process.env.SMTP_URL);
@@ -10,7 +14,7 @@ export function integrationStatus() {
     stripeWebhook: Boolean(process.env.STRIPE_WEBHOOK_SECRET),
     mail: smtpHost || smtpUrl || resend,
     mailProvider: resend ? 'resend' : smtpUrl || smtpHost ? 'smtp' : 'outbox-only',
-    demoPayments: process.env.FUSED_DEMO_PAYMENTS === '1',
+    demoPayments: demoPaymentsAllowed(),
     siteUrl: (process.env.SITE_URL || process.env.NEXT_PUBLIC_SITE_URL || '').replace(/\/$/, ''),
   };
 }

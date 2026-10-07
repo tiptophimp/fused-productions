@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { isDatabaseConfigured, getPrisma } from '@/lib/db';
+import { clientIp } from '@/lib/ops/client-ip';
+import { isRateLimited } from '@/lib/ops/rate-limit';
 
 const schema = z.object({
   firstName: z.string().min(1),
@@ -16,6 +18,10 @@ const schema = z.object({
 });
 
 export async function POST(request: NextRequest) {
+  if (isRateLimited(`inquiry:${clientIp(request)}`, 8, 15 * 60 * 1000)) {
+    return NextResponse.json({ error: 'Too many quote requests. Try again shortly.' }, { status: 429 });
+  }
+
   const parsed = schema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) {
     return NextResponse.json({ error: 'Name and email required' }, { status: 400 });

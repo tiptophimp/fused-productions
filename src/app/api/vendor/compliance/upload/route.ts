@@ -6,6 +6,8 @@ import { getPrisma } from '@/lib/db';
 
 const ALLOWED = new Set(['w9', 'coi']);
 const MAX_BYTES = 8 * 1024 * 1024;
+const ALLOWED_TYPES = new Set(['application/pdf', 'image/jpeg', 'image/png', 'image/webp']);
+const ALLOWED_EXT = /\.(pdf|jpe?g|png|webp)$/i;
 
 export async function POST(request: NextRequest) {
   const { session, error } = await requireApiSession(['vendor']);
@@ -23,6 +25,10 @@ export async function POST(request: NextRequest) {
   }
   if (file.size > MAX_BYTES) {
     return NextResponse.json({ error: 'File too large (8MB max)' }, { status: 400 });
+  }
+  const type = (file.type || '').toLowerCase();
+  if (!ALLOWED_TYPES.has(type) || !ALLOWED_EXT.test(file.name)) {
+    return NextResponse.json({ error: 'Upload a PDF, JPEG, PNG, or WebP' }, { status: 400 });
   }
 
   const prisma = getPrisma();

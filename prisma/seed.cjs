@@ -7,6 +7,9 @@ const path = require('path');
 const prisma = new PrismaClient();
 
 async function main() {
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('Refusing to seed in production. Create real users from /admin.');
+  }
   const password = process.env.SEED_PASSWORD;
   if (!password || password.length < 8) {
     throw new Error('Set SEED_PASSWORD (8+ characters) before seeding.');
