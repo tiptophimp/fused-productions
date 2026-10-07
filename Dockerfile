@@ -22,7 +22,12 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
-RUN apk add --no-cache libc6-compat openssl
+# apk upgrade: Alpine fixes newer than the base image. npm is not used at run time (the
+# entrypoint calls prisma and server.js with node); it is removed because its bundled tar
+# carried CVE-2026-59873 (Critical, tiptophimp/omniledgr#1577).
+# Node 20 is EOL (2026-04-30): move to node:22-alpine separately.
+RUN apk upgrade --no-cache && apk add --no-cache libc6-compat openssl \
+  && rm -rf /usr/local/lib/node_modules/npm /usr/local/bin/npm /usr/local/bin/npx
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
