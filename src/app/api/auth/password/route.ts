@@ -29,5 +29,6 @@ export async function POST(request: NextRequest) {
     data: { passwordHash: await hashPassword(parsed.data.next) },
   });
   await prisma.refreshToken.deleteMany({ where: { userId: user.id } });
+  await prisma.outboxEmail.deleteMany({ where: { toEmail: user.email } });
   return NextResponse.json({ ok: true });
 }
