@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireApiSession } from '@/lib/auth/session';
 import { getPrisma } from '@/lib/db';
 import { getStripe, publicSiteUrl } from '@/lib/ops/stripe';
+import { demoPaymentsAllowed } from '@/lib/ops/integrations';
 import { z } from 'zod';
 
 const bodySchema = z.object({
@@ -77,7 +78,7 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  if (process.env.FUSED_DEMO_PAYMENTS === '1') {
+  if (demoPaymentsAllowed()) {
     await prisma.milestone.update({
       where: { id: milestone.id },
       data: { status: 'paid' },

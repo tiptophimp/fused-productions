@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import type { Role } from '@prisma/client';
 import { getPrisma, isDatabaseConfigured } from '@/lib/db';
 import { ACCESS_COOKIE, verifyAccessToken, type AccessClaims } from '@/lib/auth/tokens';
+import { clientIp } from '@/lib/ops/client-ip';
 
 export async function readSession(): Promise<AccessClaims | null> {
   if (!isDatabaseConfigured()) return null;
@@ -29,7 +30,7 @@ export async function requireApiSession(
 }
 
 export function requestIp(request: NextRequest) {
-  return request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
+  return clientIp(request);
 }
 
 export { getPrisma };

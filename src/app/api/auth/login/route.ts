@@ -5,32 +5,21 @@ import { verifyPassword } from '@/lib/auth/password';
 import { signAccessToken } from '@/lib/auth/tokens';
 import { createRefreshToken, hashRefreshToken } from '@/lib/auth/refresh';
 import { applySessionCookies } from '@/lib/auth/cookies';
+import { clientIp } from '@/lib/ops/client-ip';
+import { isRateLimited } from '@/lib/ops/rate-limit';
 
 const bodySchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
 });
 
-const attempts = new Map<string, { count: number; reset: number }>();
-
-function rateLimited(ip: string) {
-  const now = Date.now();
-  const row = attempts.get(ip);
-  if (!row || row.reset < now) {
-    attempts.set(ip, { count: 1, reset: now + 15 * 60 * 1000 });
-    return false;
-  }
-  row.count += 1;
-  return row.count > 20;
-}
-
 export async function POST(request: NextRequest) {
   if (!isDatabaseConfigured()) {
     return NextResponse.json({ error: 'Portal database is not configured' }, { status: 503 });
   }
 
-  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'local';
-  if (rateLimited(ip)) {
+  const ip = clientIp(request);
+  if (isRateLimited(`login:${ip}`, 20, 15 * 60 * 1000)) {
     return NextResponse.json({ error: 'Too many login attempts' }, { status: 429 });
   }
 
